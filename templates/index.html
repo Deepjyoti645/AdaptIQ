@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AdaptIQ - EdTech Platform</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+      :root {
+  --bg-main: #0b132b;
+  --card-bg: #1c2541;
+  --card-border: #2a3759;
+  --text-primary: #f8fafc;
+  --text-muted: #8d99ae;
+  --accent-indigo: #6366f1;
+  --accent-blue: #3b82f6;
+  --accent-green: #10b981;
+  --accent-amber: #f59e0b;
+  --accent-red: #ef4444;
+  --grad-primary: linear-gradient(135deg, #4f46e5, #7c3aed);
+  --grad-success: linear-gradient(135deg, #059669, #10b981);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  padding-bottom: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Auth Wrappers */
+.auth-wrapper {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 420px;
+  height: 100vh;
+  background-color: var(--bg-main);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  transition: all 0.4s ease;
+}
+
+.auth-wrapper.hidden {
+  display: none !important;
+}
+
+/* Welcome Scene Container */
+.mascot-scene-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.mascot-scene-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.holo-screen-overlay {
+  position: absolute;
+  top: 18%;
+  left: 11.5%;
+  width: 27%;
+  height: 65%;
+  transform: perspective(800px) rotateX(12deg) rotateY(18deg) skewY(-6deg);
+  transform-origin: top left;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.holo-input-box {
+  font-family: 'Courier New', monospace;
+  font-size: 8px;
+  font-weight: bold;
+  color: #00ffff;
+  padding-left: 6px;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 18px;
+  line-height: 18px;
+}
+
+#holo-name    { margin-top: 36px; }
+#holo-age     { margin-top: 22px; }
+#holo-class   { margin-top: 21px; }
+#holo-country { margin-top: 22px; }
+
+.welcome-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  padding: 40px 20px 30px;
+  text-align: center;
+  background: linear-gradient(to top, rgba(11, 19, 43, 0.98) 40%, rgba(11, 19, 43, 0.8) 70%, transparent 100%);
+}
+
+.welcome-content h1 {
+  font-size: 1.5rem;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+.welcome-content p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+
+.login-link {
+  margin-top: 12px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.login-link a {
+  color: var(--accent-indigo);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Header with Mascot */
+.signup-header-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin-top: 10px;
+  padding: 0 10px;
+}
+
+.mascot-top-entry {
+  position: relative;
+  width: 180px;
+  height: 150px;
+  flex-shrink: 0;
+}
+
+.mascot-top-entry img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.signup-mascot-holo-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.signup-holo-box {
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  color: #00ffff;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.95);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: absolute;
+}
+
+#box-name {
+  top: 43%;
+  left: 14.5%;
+  width: 24.5%;
+  transform: perspective(500px) rotateX(15deg) rotateY(-18deg) rotateZ(9deg);
+  font-size: 6px;
+}
+
+#box-age {
+  top: 51%;
+  left: 15.5%;
+  width: 20%;
+  transform: perspective(500px) rotateX(15deg) rotateY(-18deg) rotateZ(6deg);
+  font-size: 6.5px;
+}
+
+#box-class {
+  top: 61%;
+  left: 16.5%;
+  width: 22%;
+  transform: perspective(500px) rotateX(15deg) rotateY(-18deg) rotateZ(5deg);
+  font-size: 6px;
+}
+
+#box-country {
+  top: 70.5%;
+  left: 16%;
+  width: 25%;
+  transform: perspective(500px) rotateX(15deg) rotateY(-18deg) rotateZ(2deg);
+  font-size: 6px;
+}
+
+.signup-card {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 16px;
+  padding: 10px 20px 20px;
+  margin-top: 0px;
+  z-index: 10;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-error-msg { color: var(--accent-red); font-size: 0.78rem; margin-top: 8px; text-align: center; display: none; }
+.app-header { display: flex; justify-content: flex-end; align-items: center; padding-bottom: 12px; flex-shrink: 0; }
+
+.screen { display: none; animation: fadeIn 0.2s ease-in-out; width: 100%; position: relative; }
+.screen.active { display: flex; flex-direction: column; flex: 1; }
+
+.study-screen {
+  max-height: calc(100vh - 80px);
+  overflow-y: hidden;
+  padding-right: 0;
+}
+
+#screen-assistant.active { 
+  height: calc(100vh - 120px); 
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.screen-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-shrink: 0; }
+.screen-header h2 { font-size: 1.15rem; font-weight: 600; }
+.icon-btn { background: none; border: none; color: var(--text-primary); font-size: 1.2rem; cursor: pointer; }
+
+.card { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 16px; margin-bottom: 14px; }
+.btn-primary { width: 100%; padding: 14px; border-radius: 12px; border: none; background: var(--grad-primary); color: white; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
+.btn-primary:active { transform: scale(0.98); }
+.btn-danger { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); border: 1px solid rgba(239, 68, 68, 0.3); box-shadow: none; }
+
+.target-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.target-title { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
+.target-remaining { font-size: 0.75rem; color: var(--accent-indigo); background: rgba(99, 102, 241, 0.15); padding: 4px 8px; border-radius: 8px; font-weight: 600; }
+.progress-bar-bg { width: 100%; height: 10px; background: #0b132b; border-radius: 10px; overflow: hidden; margin: 10px 0; }
+.progress-bar-fill { height: 100%; width: 0%; background: var(--grad-primary); border-radius: 10px; transition: width 0.3s ease; }
+
+.mascot-banner { background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.25); border-radius: 14px; padding: 12px; display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.mascot-avatar-img { width: 50px; height: 50px; object-fit: contain; flex-shrink: 0; }
+.mascot-text { font-size: 0.8rem; color: #c7d2fe; line-height: 1.3; }
+
+.grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.study-card { display: flex; flex-direction: column; justify-content: space-between; min-height: 110px; cursor: pointer; position: relative; overflow: hidden; }
+.study-card .card-bg-icon { position: absolute; right: -6px; bottom: -6px; font-size: 3rem; opacity: 0.08; color: white; pointer-events: none; }
+.study-card .card-bg-svg { position: absolute; right: 6px; bottom: 6px; width: 42px; height: 42px; opacity: 0.08; fill: white; pointer-events: none; }
+
+.icon-badge { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; color: white; margin-bottom: 8px; }
+.c-purple .icon-badge { background: var(--grad-primary); }
+.c-green .icon-badge { background: var(--grad-success); }
+.c-amber .icon-badge { background: linear-gradient(135deg, #d97706, #f59e0b); }
+.c-sky .icon-badge { background: linear-gradient(135deg, #0284c7, #38bdf8); }
+
+.study-card h4 { font-size: 0.85rem; font-weight: 600; }
+.study-card p { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+
+.form-group { margin-bottom: 14px; display: flex; flex-direction: column; }
+.form-group label { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 6px; }
+
+.custom-select, .custom-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  background: #0b132b;
+  border: 1px solid var(--card-border);
+  color: white;
+  outline: none;
+  font-size: 0.85rem;
+}
+
+.tab-pills { display: flex; background: #0b132b; padding: 4px; border-radius: 12px; gap: 4px; margin-bottom: 16px; border: 1px solid var(--card-border); }
+.tab-pill { flex: 1; padding: 8px 4px; font-size: 0.72rem; text-align: center; border-radius: 8px; color: var(--text-muted); cursor: pointer; font-weight: 500; white-space: nowrap; }
+.tab-pill.active { background: var(--card-bg); color: var(--text-primary); border: 1px solid var(--card-border); font-weight: 600; }
+
+.topic-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.tag-pill { background: rgba(99, 102, 241, 0.15); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.3); padding: 5px 10px; border-radius: 20px; font-size: 0.75rem; display: flex; align-items: center; gap: 6px; }
+.tag-pill .remove-tag { cursor: pointer; font-size: 0.7rem; color: #c7d2fe; }
+.add-tag-btn { background: #0b132b; color: var(--text-muted); border: 1px dashed var(--card-border); padding: 5px 10px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; }
+
+.diff-selector { display: flex; gap: 8px; }
+.diff-btn { flex: 1; padding: 10px; border-radius: 10px; background: #0b132b; border: 1px solid var(--card-border); color: var(--text-muted); font-size: 0.8rem; text-align: center; cursor: pointer; }
+.diff-btn.active { background: rgba(99, 102, 241, 0.2); border-color: var(--accent-indigo); color: white; font-weight: 600; }
+
+.quiz-option-card { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 14px; background: #0b132b; border: 1px solid var(--card-border); border-radius: 12px; color: white; margin-bottom: 10px; cursor: pointer; text-align: left; transition: all 0.2s; }
+.quiz-option-card.selected { background: var(--grad-primary); border-color: transparent; }
+.option-badge { width: 26px; height: 26px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; flex-shrink: 0; }
+.quiz-option-card.selected .option-badge { background: rgba(255, 255, 255, 0.25); }
+
+.quiz-nav-btns { display: flex; gap: 12px; margin-top: auto; }
+.btn-secondary { flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--card-border); background: var(--card-bg); color: white; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+.target-breakdown { display: flex; gap: 10px; margin-top: 12px; }
+.target-box { flex: 1; background: #0b132b; padding: 10px; border-radius: 10px; border: 1px solid var(--card-border); text-align: center; }
+.target-box .val { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); }
+.target-box .lbl { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+
+.study-welcome-popup {
+  position: absolute;
+  bottom: -180px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 170px;
+  z-index: 99;
+  pointer-events: none;
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.27);
+}
+
+.study-welcome-popup.active {
+  transform: translate(-50%, -190px);
+}
+
+.study-welcome-popup img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.analytics-mascot-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.analytics-mascot-img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.speech-bubble {
+  position: relative;
+  background: #0b132b;
+  border: 1px solid var(--accent-indigo);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  color: #e2e8f0;
+  flex: 1;
+  min-height: 55px;
+  display: flex;
+  align-items: center;
+  max-width: calc(100% - 82px);
+  box-sizing: border-box;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.speech-bubble span {
+  display: inline-block;
+  width: 100%;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-right: 8px solid var(--accent-indigo);
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 7px solid #0b132b;
+}
+
+.custom-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.custom-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.custom-modal-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 340px;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.custom-modal-mascot {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+.custom-modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.custom-modal-body {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-bottom: 18px;
+  white-space: pre-line;
+}
+
+.chat-container { display: flex; flex-direction: column; flex: 1; height: 100%; justify-content: space-between; overflow: hidden; }
+.chat-box { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding-right: 4px; margin-bottom: 12px; }
+.chat-msg { max-width: 85%; padding: 12px; border-radius: 16px; font-size: 0.85rem; line-height: 1.4; }
+.chat-msg.bot { background: var(--card-bg); border: 1px solid var(--card-border); align-self: flex-start; }
+.chat-msg.user { background: var(--grad-primary); align-self: flex-end; color: white; }
+
+.chat-input-area { display: flex; gap: 8px; flex-shrink: 0; }
+.chat-input-area input { flex: 1; }
+
+.profile-avatar-wrapper { position: relative; width: 80px; height: 80px; margin: 0 auto 12px; border-radius: 50%; overflow: hidden; border: 2px solid var(--accent-indigo); }
+.profile-avatar-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+.profile-avatar-wrapper .placeholder-icon { width: 100%; height: 100%; background: #0b132b; display: flex; align-items: center; justify-content: center; }
+.upload-btn { position: absolute; bottom: 0; right: 0; background: var(--accent-indigo); color: white; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; cursor: pointer; z-index: 10; }
+
+.user-info-display { text-align: center; margin-bottom: 16px; }
+.user-info-display h3 { font-size: 1.1rem; font-weight: 600; }
+.user-info-display span { display: inline-block; font-size: 0.75rem; color: var(--accent-indigo); background: rgba(99, 102, 241, 0.15); padding: 2px 10px; border-radius: 12px; margin-top: 4px; font-weight: 600; }
+
+.bottom-nav { 
+  position: fixed; 
+  bottom: 0; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  width: 100%; 
+  max-width: 420px; 
+  background-color: #0b132b; 
+  border-top: 1px solid var(--card-border); 
+  display: flex; 
+  justify-style: space-around; 
+  align-items: center;
+  padding: 8px 0; 
+  z-index: 100; 
+}
+
+.nav-item { 
+  flex: 1;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center;
+  gap: 3px; 
+  color: var(--text-muted); 
+  font-size: 0.68rem; 
+  text-decoration: none; 
+  cursor: pointer; 
+  white-space: nowrap;
+}
+
+.nav-item i, .nav-item svg { 
+  font-size: 1.1rem; 
+  fill: currentColor; 
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-item.active { 
+  color: var(--accent-indigo); 
+  font-weight: 600;
+}
+</style>
+</head>
+<body>
+
+  <!-- WELCOME WRAPPER -->
+<div id="wrapper-welcome" class="auth-wrapper">
+  <div class="mascot-scene-container">
+    <img src="{{ url_for('static', filename='images/Welcome_Screen.png') }}" alt="Mascot Scene" class="mascot-scene-img" id="welcome-scene-img">
+    
+    <div class="holo-screen-overlay">
+      <div class="holo-input-box" id="holo-name"></div>
+      <div class="holo-input-box" id="holo-age"></div>
+      <div class="holo-input-box" id="holo-class"></div>
+      <div class="holo-input-box" id="holo-country"></div>
+    </div>
+  </div>
+
+  <div class="welcome-content">
+    <h1>Welcome to AdaptIQ! ✨</h1>
+    <p>Your Personal Smart AI Tutor & Learning Companion</p>
+    
+    <button class="btn-primary" onclick="openSignupWrapper()">
+      Get Started <i class="fa-solid fa-arrow-right"></i>
+    </button>
+
+    <div class="login-link">
+      Already have an account? <a href="#" onclick="openLoginWrapper()">Login</a>
+    </div>
+  </div>
+</div>
+
+<!-- SIGN-UP WRAPPER -->
+<div id="wrapper-signup" class="auth-wrapper hidden">
+  <div class="signup-header-custom">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <button class="icon-btn" onclick="backToWelcome()"><i class="fa-solid fa-arrow-left"></i></button>
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: #fff;">Sign Up</h2>
+    </div>
+
+    <div class="mascot-top-entry" id="mascot-top-img">
+      <img src="{{ url_for('static', filename='images/Creating.png') }}" alt="Mascot Mascot">
+      
+      <div class="signup-mascot-holo-overlay" id="targetOverlay">
+        <div class="signup-holo-box" id="box-name"></div>
+        <div class="signup-holo-box" id="box-age"></div>
+        <div class="signup-holo-box" id="box-class"></div>
+        <div class="signup-holo-box" id="box-country"></div>
+      </div>
+    </div>
+  </div>
+
+  <form class="signup-card" id="signupForm" onsubmit="handleSignupSubmit(event)">
+    <div class="form-group">
+      <label><i class="fa-solid fa-user"></i> Full Name *</label>
+      <input type="text" id="reg-name" class="custom-input" placeholder="enter your name" required>
+    </div>
+
+    <div class="form-group">
+      <label><i class="fa-solid fa-lock"></i> Password *</label>
+      <input type="password" id="reg-pass" class="custom-input" placeholder="Create Password" required>
+    </div>
+
+    <div class="form-group">
+      <label><i class="fa-solid fa-cake-candles"></i> Age *</label>
+      <input type="number" id="reg-age" class="custom-input" placeholder="enter your age" min="5" max="100" required>
+    </div>
+
+    <div class="form-group">
+      <label><i class="fa-solid fa-graduation-cap"></i> Class / Grade *</label>
+      <input type="number" id="reg-class" class="custom-input" placeholder="enter your class" min="1" max="12" required>
+    </div>
+
+    <div class="form-group">
+      <label><i class="fa-solid fa-globe"></i> Country *</label>
+      <select id="reg-country" class="custom-select" required>
+        <option value="" disabled selected>Select country</option>
+        <option value="India">India</option>
+        <option value="United States">United States</option>
+        <option value="United Kingdom">United Kingdom</option>
+        <option value="Canada">Canada</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn-primary" style="margin-top: 10px;">
+      Sign Up & Start Learning <i class="fa-solid fa-user-plus"></i>
+    </button>
+
+    <div class="login-link">
+      Already have an account? <a href="#" onclick="openLoginWrapper()">Login</a>
+    </div>
+  </form>
+</div>
+
+<!-- LOGIN WRAPPER -->
+<div id="wrapper-login" class="auth-wrapper hidden">
+  <div class="screen-header" style="margin-top: 10px; padding: 0 10px;">
+    <button class="icon-btn" onclick="backToWelcome()"><i class="fa-solid fa-arrow-left"></i></button>
+    <h2>Login to AdaptIQ</h2>
+  </div>
+
+  <form class="signup-card" id="loginForm" onsubmit="handleLoginSubmit(event)" style="margin-top: 20px;">
+    <div class="form-group">
+      <label><i class="fa-solid fa-user"></i> Name *</label>
+      <input type="text" id="login-name" class="custom-input" placeholder="Enter Your Name" required>
+    </div>
+
+    <div class="form-group">
+      <label><i class="fa-solid fa-lock"></i> Password *</label>
+      <input type="password" id="login-pass" class="custom-input" placeholder="Enter Your Password" required>
+    </div>
+
+    <div id="login-error" class="auth-error-msg">
+      Wrong password / If you don't have an account, please create one!
+    </div>
+
+    <button type="submit" class="btn-primary" style="margin-top: 20px;">
+      Login <i class="fa-solid fa-right-to-bracket"></i>
+    </button>
+
+    <div class="login-link">
+      Don't have an account? <a href="#" onclick="openSignupWrapper()">Sign Up</a>
+    </div>
+  </form>
+</div>
+
+<!-- MAIN APP CONTAINER -->
+<div class="app-container">
+
+  <!-- DASHBOARD (STUDY) WITH STUDY-SCREEN SCROLL CLASS -->
+  <section id="screen-dashboard" class="screen study-screen active">
+    <header class="app-header">
+      <div style="display: flex; gap: 8px; align-items: center; background: #1c2541; padding: 6px 12px; border-radius: 20px; border: 1px solid #2a3759;">
+        <i class="fa-solid fa-fire" style="color: #f59e0b; font-size: 0.9rem;"></i>
+        <span id="streak-count" style="font-size: 0.8rem; font-weight: 600;">Loading...</span>
+      </div>
+    </header>
+
+    <!-- MASCOT BANNER -->
+    <div class="mascot-banner">
+      <img src="{{ url_for('static', filename='images/Normal.png') }}" alt="Mascot" class="mascot-avatar-img">
+      <div class="mascot-text">
+        <strong>Daily Target Alert!</strong><br>
+        You have completed 1 out of 2 Math chapters for today. Keep pushing!
+      </div>
+    </div>
+
+    <!-- TARGET CARD WITH ANALYTICS PERCENTAGE -->
+    <div class="card" style="text-align: center; padding: 20px 16px;">
+      <div class="target-header" style="justify-content: center; margin-bottom: 6px;">
+        <span class="target-title"><i class="fa-solid fa-chart-line" style="color: #6366f1; margin-right: 6px;"></i> Overall Performance (7 Days)</span>
+      </div>
+      
+      <h1 id="dash-overall-percentage" style="font-size: 2.8rem; color: #10b981; margin: 8px 0; font-weight: 800;">0%</h1>
+      
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="dash-progress-fill" style="width: 0%;"></div>
+      </div>
+      
+      <span class="target-remaining" style="display: inline-block; margin-top: 6px;">7-Day Rolling Average</span>
+    </div>
+
+    <div class="grid-container">
+      <div class="card study-card c-purple" onclick="switchScreen('screen-profile', document.querySelectorAll('.bottom-nav .nav-item')[4])">
+        <i class="fa-solid fa-user card-bg-icon"></i>
+        <div class="icon-badge"><i class="fa-solid fa-user"></i></div>
+        <div>
+          <h4>User Profile</h4>
+          <p>Account & Settings</p>
+        </div>
+      </div>
+
+      <div class="card study-card c-green" onclick="switchScreen('screen-test-gen', document.querySelectorAll('.bottom-nav .nav-item')[1])">
+        <i class="fa-solid fa-file-pen card-bg-icon"></i>
+        <div class="icon-badge"><i class="fa-solid fa-file-pen"></i></div>
+        <div>
+          <h4>Mock Test Engine</h4>
+          <p>Practice MCQs & Quiz</p>
+        </div>
+      </div>
+
+      <div class="card study-card c-amber" onclick="switchScreen('screen-tracker', document.querySelectorAll('.bottom-nav .nav-item')[2])">
+        <i class="fa-solid fa-chart-line card-bg-icon"></i>
+        <div class="icon-badge"><i class="fa-solid fa-chart-line"></i></div>
+        <div>
+          <h4>Subject Analytics</h4>
+          <p>Weak Areas & Scores</p>
+        </div>
+      </div>
+
+      <div class="card study-card c-sky" onclick="switchScreen('screen-assistant', document.querySelectorAll('.bottom-nav .nav-item')[3])">
+        <svg class="card-bg-svg" viewBox="0 0 24 24"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>
+        <div class="icon-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>
+        </div>
+        <div>
+          <h4>AI Tutor Bot</h4>
+          <p>Instant Doubt Solver</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANIMATED STUDY WELCOME POPUP PNG -->
+    <div id="study-welcome-container" class="study-welcome-popup">
+      <img src="{{ url_for('static', filename='images/Study_Welcome.png') }}" alt="Welcome Mascot">
+    </div>
+  </section>
+
+  <!-- MOCK TEST GENERATOR -->
+  <section id="screen-test-gen" class="screen">
+    <div class="screen-header">
+      <button class="icon-btn" onclick="switchScreen('screen-dashboard', document.querySelectorAll('.bottom-nav .nav-item')[0])"><i class="fa-solid fa-arrow-left"></i></button>
+      <h2>Mock Test Generator</h2>
+    </div>
+
+    <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px;">Create custom mock tests or choose mode below.</p>
+
+    <div class="tab-pills">
+      <div class="tab-pill active" onclick="switchTestTab(this, 'custom')"><i class="fa-solid fa-sliders" style="margin-right: 4px;"></i> Custom Test</div>
+      <div class="tab-pill" onclick="switchTestTab(this, 'chapter')">Chapter Wise</div>
+      <div class="tab-pill" onclick="switchTestTab(this, 'pyq')">Previous Years</div>
+    </div>
+
+    <div class="card">
+      <h4 id="test-card-title" style="font-size: 0.85rem; font-weight: 600; margin-bottom: 12px; color: var(--text-primary);">Custom Test Settings</h4>
+
+      <div class="form-group">
+        <label>Subject</label>
+        <select class="custom-select" id="test-subject-select">
+          <option value="Mathematics">Mathematics</option>
+          <option value="Science">Science</option>
+          <option value="Computer Science">Computer Science</option>
+          <option value="English">English</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="dynamic-input-group">
+        <label id="dynamic-input-label">Topics (optional)</label>
+        
+        <div class="topic-tags" id="topic-tags-wrapper">
+          <span class="tag-pill"><span class="tag-text">Algebra</span> <i class="fa-solid fa-xmark remove-tag" onclick="removeTag(this)"></i></span>
+          <span class="tag-pill"><span class="tag-text">Geometry</span> <i class="fa-solid fa-xmark remove-tag" onclick="removeTag(this)"></i></span>
+          <button class="add-tag-btn" onclick="addNewTag()">+ Add Topic</button>
+        </div>
+
+        <input type="text" id="chapter-name-input" class="custom-input" placeholder="e.g. Quadratic Equations, Light & Optics" style="display: none;">
+        <input type="number" id="pyq-year-input" class="custom-input" placeholder="e.g. 2023, 2022" min="2000" max="2026" style="display: none;">
+      </div>
+
+      <div class="form-group">
+        <label>Difficulty Level</label>
+        <div class="diff-selector">
+          <div class="diff-btn" onclick="selectDifficulty(this)" data-level="Easy">Easy</div>
+          <div class="diff-btn active" onclick="selectDifficulty(this)" data-level="Medium">Medium</div>
+          <div class="diff-btn" onclick="selectDifficulty(this)" data-level="Hard">Hard</div>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 4px;">
+        <label>Number of Questions</label>
+        <select class="custom-select" id="test-num-questions">
+          <option value="5">5 Questions</option>
+          <option value="10" selected>10 Questions</option>
+          <option value="20">20 Questions</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="gen-test-btn" onclick="generateTestBackend()">Generate Test ✨</button>
+  </section>
+
+  <!-- LIVE MOCK TEST SCREEN -->
+  <section id="screen-live-test" class="screen">
+    <div class="screen-header" style="justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button class="icon-btn" onclick="switchScreen('screen-test-gen', document.querySelectorAll('.bottom-nav .nav-item')[1])"><i class="fa-solid fa-arrow-left"></i></button>
+        <h2>Mock Test</h2>
+      </div>
+      <span style="font-size: 0.85rem; color: #f59e0b; font-weight: 600;"><i class="fa-regular fa-clock"></i> <span id="test-timer">10:00</span></span>
+    </div>
+
+    <div class="progress-bar-bg" style="margin: 0 0 16px 0;">
+      <div class="progress-bar-fill" id="live-test-progress" style="width: 0%;"></div>
+    </div>
+
+    <p class="question-counter" id="question-counter" style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 10px;">Q 1 / 10</p>
+
+    <div class="card" id="quiz-card-container" style="padding: 16px;">
+      <div style="display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--accent-indigo); font-weight: 600; margin-bottom: 12px;">
+        <i class="fa-solid fa-calculator"></i> <span id="quiz-subject-label">Mathematics</span>
+      </div>
+
+      <p class="quiz-question-text" id="quiz-question-text" style="font-size: 0.95rem; font-weight: 600; line-height: 1.4; margin-bottom: 18px;">Question text will appear here...</p>
+
+      <div id="quiz-options-wrapper"></div>
+    </div>
+
+    <div class="quiz-nav-btns">
+      <button class="btn-secondary" onclick="prevQuestion()"><i class="fa-solid fa-chevron-left"></i> Previous</button>
+      <button class="btn-primary" style="flex: 1;" id="next-submit-btn" onclick="nextQuestion()">Next <i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </section>
+
+  <!-- ANALYTICS SCREEN -->
+  <section id="screen-tracker" class="screen">
+    <div class="screen-header">
+      <button class="icon-btn" onclick="switchScreen('screen-dashboard', document.querySelectorAll('.bottom-nav .nav-item')[0])"><i class="fa-solid fa-arrow-left"></i></button>
+      <h2>7-Day Subject Analytics</h2>
+    </div>
+
+    <div class="card" style="text-align: center;">
+      <h3 style="font-size: 0.85rem; color: var(--text-muted);">Overall Accuracy (Last 7 Days)</h3>
+      <h1 id="overall-accuracy" style="font-size: 2.5rem; color: #10b981; margin: 6px 0;">0%</h1>
+      <p id="accuracy-subtext" style="font-size: 0.75rem; color: var(--text-muted);">Great consistency over the last week!</p>
+    </div>
+
+    <div class="target-breakdown" style="margin-bottom: 14px;">
+      <div class="target-box">
+        <div class="val" id="analytics-completed" style="color: #10b981;">0 Tests</div>
+        <div class="lbl">Tests Completed</div>
+      </div>
+      <div class="target-box">
+        <div class="val" id="analytics-correct" style="color: #6366f1;">0</div>
+        <div class="lbl">Correct Qs</div>
+      </div>
+      <div class="target-box">
+        <div class="val" id="analytics-total-qs" style="color: #f59e0b;">0</div>
+        <div class="lbl">Total Qs Attempted</div>
+      </div>
+    </div>
+
+    <!-- ANALYTICS MASCOT -->
+    <div class="analytics-mascot-section">
+      <img id="analytics-mascot-img" src="{{ url_for('static', filename='images/Normal.png') }}" alt="Mascot" class="analytics-mascot-img">
+      <div class="speech-bubble">
+        <span id="typewriter-text">Loading insights...</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI TUTOR BOT -->
+  <section id="screen-assistant" class="screen">
+    <div class="screen-header">
+      <button class="icon-btn" onclick="switchScreen('screen-dashboard', document.querySelectorAll('.bottom-nav .nav-item')[0])"><i class="fa-solid fa-arrow-left"></i></button>
+      <h2>AI Tutor Bot</h2>
+    </div>
+
+    <div class="chat-container">
+      <div class="chat-box" id="chatBox">
+        <div class="chat-msg bot">
+          <strong>Hello Learner! ✨</strong><br>
+          I'm your AI Tutor. Ask me any doubt in Science, Math, or Programming!
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <input type="text" id="chatInput" class="custom-input" placeholder="Ask a doubt..." onfocus="scrollToBottom()" onkeypress="if(event.key === 'Enter') sendChatMessage()">
+        <button class="btn-primary" style="width: 50px;" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROFILE SCREEN -->
+  <section id="screen-profile" class="screen">
+    <div class="screen-header">
+      <button class="icon-btn" onclick="switchScreen('screen-dashboard', document.querySelectorAll('.bottom-nav .nav-item')[0])"><i class="fa-solid fa-arrow-left"></i></button>
+      <h2>Student Profile</h2>
+    </div>
+
+    <div class="card" style="text-align: center;">
+      <div style="position: relative; width: 84px; margin: 0 auto 12px;">
+        <div class="profile-avatar-wrapper" id="profile-avatar-container">
+          <div class="placeholder-icon" id="avatar-placeholder">
+            <i class="fa-solid fa-user" style="font-size: 36px; color: #6366f1;"></i>
+          </div>
+          <img id="profile-image-preview" src="" alt="Profile Pic" style="display: none;">
+        </div>
+        <label for="avatar-input" class="upload-btn">
+          <i class="fa-solid fa-camera"></i>
+        </label>
+        <input type="file" id="avatar-input" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+      </div>
+
+      <div class="user-info-display">
+        <h3 id="display-user-name">Student Name</h3>
+        <span id="display-user-class">Class Student</span>
+      </div>
+
+      <button class="btn-primary btn-danger" style="margin-top: 16px;" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+  </section>
+
+  <!-- BOTTOM NAVIGATION BAR -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" onclick="switchScreen('screen-dashboard', this)"><i class="fa-solid fa-book-open"></i><span>Study</span></div>
+    <div class="nav-item" onclick="switchScreen('screen-test-gen', this)"><i class="fa-solid fa-list-check"></i><span>Tests</span></div>
+    <div class="nav-item" onclick="switchScreen('screen-tracker', this)"><i class="fa-solid fa-graduation-cap"></i><span>Analytics</span></div>
+    <div class="nav-item" onclick="switchScreen('screen-assistant', this)">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>
+      <span>AI Tutor</span>
+    </div>
+    <div class="nav-item" onclick="switchScreen('screen-profile', this)"><i class="fa-solid fa-user"></i><span>Profile</span></div>
+  </nav>
+
+</div>
+
+<!-- CUSTOM MODAL POPUP FOR CLEAN ALERTS -->
+<div id="custom-alert-modal" class="custom-modal-overlay">
+  <div class="custom-modal-card">
+    <img id="modal-mascot-img" src="{{ url_for('static', filename='images/Normal.png') }}" alt="Mascot" class="custom-modal-mascot">
+    <h3 id="modal-title" class="custom-modal-title">Notification</h3>
+    <p id="modal-body" class="custom-modal-body">Message text goes here...</p>
+    <button class="btn-primary" onclick="closeCustomModal()">OK</button>
+  </div>
+</div>
+
+<script>
+  const BASE_URL = window.location.origin;
+  const PUBLIC_VAPID_KEY = "BMJmcGRTEZdUav3HAoBuHr9yaF6Vufuh3gKrTRfGw071plE3XKg6QdDc0KQwRk_2f05Mya3UdmIvWQBl-rSBPg";
+
+  let activeQuestions = [];
+  let currentQuestionIdx = 0;
+  let selectedAnswers = {};
+  let timerInterval = null;
+  let currentSubject = "Mathematics";
+  let isSubmittingTest = false; 
+  let currentTestMode = 'custom';
+  let typewriterTimeout = null;
+
+  /* PUSH NOTIFICATION HELPER FUNCTIONS */
+  function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+  }
+
+  async function subscribeUserToPush() {
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+      try {
+        const register = await navigator.serviceWorker.register('/static/sw.js');
+        
+        const subscription = await register.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(PUBLIC_VAPID_KEY)
+        });
+
+        const userObj = JSON.parse(localStorage.getItem('adaptiq_active_user') || '{}');
+        if (!userObj.id) return;
+
+        await fetch(`${BASE_URL}/api/subscribe-push`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_id: userObj.id,
+            subscription: subscription
+          })
+        });
+        console.log("Push Notification Subscribed Successfully!");
+      } catch (err) {
+        console.error("Push Subscription Error:", err);
+      }
+    }
+  }
+
+  function initPushNotifications() {
+    if ('Notification' in window) {
+      if (Notification.permission === 'default') {
+        Notification.requestPermission().then(permission => {
+          if (permission === 'granted') {
+            subscribeUserToPush();
+          }
+        });
+      } else if (Notification.permission === 'granted') {
+        subscribeUserToPush();
+      }
+    }
+  }
+
+  /* CUSTOM MODAL HELPER */
+  function showCustomModal(title, message, mascotType = 'normal') {
+    const modal = document.getElementById('custom-alert-modal');
+    const titleEl = document.getElementById('modal-title');
+    const bodyEl = document.getElementById('modal-body');
+    const imgEl = document.getElementById('modal-mascot-img');
+
+    titleEl.innerText = title;
+    bodyEl.innerText = message;
+
+    if (mascotType === 'very_happy') {
+      imgEl.src = "{{ url_for('static', filename='images/Very_Happy.png') }}";
+    } else {
+      imgEl.src = "{{ url_for('static', filename='images/Normal.png') }}";
+    }
+
+    modal.classList.add('active');
+  }
+
+  function closeCustomModal() {
+    document.getElementById('custom-alert-modal').classList.remove('active');
+  }
+
+  function openSignupWrapper() {
+    document.getElementById('wrapper-welcome').classList.add('hidden');
+    document.getElementById('wrapper-login').classList.add('hidden');
+    document.getElementById('wrapper-signup').classList.remove('hidden');
+  }
+
+  function openLoginWrapper() {
+    document.getElementById('login-error').style.display = 'none';
+    document.getElementById('wrapper-welcome').classList.add('hidden');
+    document.getElementById('wrapper-signup').classList.add('hidden');
+    document.getElementById('wrapper-login').classList.remove('hidden');
+  }
+
+  function backToWelcome() {
+    document.getElementById('wrapper-signup').classList.add('hidden');
+    document.getElementById('wrapper-login').classList.add('hidden');
+    document.getElementById('wrapper-welcome').classList.remove('hidden');
+  }
+
+  function completeAuthFlow() {
+    document.getElementById('wrapper-welcome').classList.add('hidden');
+    document.getElementById('wrapper-signup').classList.add('hidden');
+    document.getElementById('wrapper-login').classList.add('hidden');
+  }
+
+  const nameInp = document.getElementById('reg-name');
+  const ageInp = document.getElementById('reg-age');
+  const classInp = document.getElementById('reg-class');
+  const countryInp = document.getElementById('reg-country');
+
+  if (nameInp) {
+    nameInp.addEventListener('input', e => {
+      const val = e.target.value || '';
+      document.getElementById('holo-name').innerText = val;
+      document.getElementById('box-name').innerText = val;
+    });
+  }
+
+  if (ageInp) {
+    ageInp.addEventListener('input', e => {
+      const val = e.target.value || '';
+      document.getElementById('holo-age').innerText = val;
+      document.getElementById('box-age').innerText = val;
+    });
+  }
+
+  if (classInp) {
+    classInp.addEventListener('input', e => {
+      const val = e.target.value ? `Class ${e.target.value}` : '';
+      document.getElementById('holo-class').innerText = val;
+      document.getElementById('box-class').innerText = val;
+    });
+  }
+
+  if (countryInp) {
+    countryInp.addEventListener('change', e => {
+      const val = e.target.value || '';
+      document.getElementById('holo-country').innerText = val;
+      document.getElementById('box-country').innerText = val;
+    });
+  }
+
+  async function handleSignupSubmit(e) {
+    e.preventDefault();
+    
+    const userData = {
+      name: nameInp.value.trim(),
+      password: document.getElementById('reg-pass').value.trim(),
+      age: ageInp.value,
+      classNum: classInp.value,
+      country: countryInp.value
+    };
+
+    try {
+      const resp = await fetch(`${BASE_URL}/api/register`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(userData)
+      });
+      const data = await resp.json();
+
+      if (data.status === 'success') {
+        localStorage.setItem('adaptiq_active_user', JSON.stringify(data.user));
+        loadUserProfileData(data.user);
+
+        sessionStorage.setItem('show_study_mascot', 'true');
+        showCustomModal("Welcome!", `Account Created Successfully!\nWelcome ${data.user.name}`, 'very_happy');
+        completeAuthFlow();
+        triggerStudyWelcomeAnimation();
+        loadAnalyticsData();
+        loadDailyStreak();
+        initPushNotifications();
+      } else {
+        showCustomModal("Signup Error", data.message || "Failed to create account.");
+      }
+    } catch(err) {
+      console.error(err);
+      showCustomModal("Error", "Server connection error.");
+    }
+  }
+
+  async function handleLoginSubmit(e) {
+    e.preventDefault();
+    const loginName = document.getElementById('login-name').value.trim();
+    const loginPass = document.getElementById('login-pass').value.trim();
+    const errorBox = document.getElementById('login-error');
+
+    try {
+      const resp = await fetch(`${BASE_URL}/api/login`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ name: loginName, password: loginPass })
+      });
+      const data = await resp.json();
+
+      if (data.status === 'success') {
+        errorBox.style.display = 'none';
+        localStorage.setItem('adaptiq_active_user', JSON.stringify(data.user));
+        loadUserProfileData(data.user);
+
+        sessionStorage.setItem('show_study_mascot', 'true');
+        completeAuthFlow();
+        triggerStudyWelcomeAnimation();
+        loadAnalyticsData();
+        loadDailyStreak();
+        initPushNotifications();
+      } else {
+        errorBox.innerText = data.message || "Invalid name or password!";
+        errorBox.style.display = 'block';
+      }
+    } catch(err) {
+      console.error(err);
+      errorBox.innerText = "Server connection error!";
+      errorBox.style.display = 'block';
+    }
+  }
+
+  function loadUserProfileData(userObj) {
+    document.getElementById('display-user-name').innerText = userObj.name;
+    document.getElementById('display-user-class').innerText = `Class ${userObj.classNum} Student (${userObj.country})`;
+    
+    // Load profile image if stored
+    const imgPreview = document.getElementById('profile-image-preview');
+    const placeholder = document.getElementById('avatar-placeholder');
+    const savedImg = localStorage.getItem(`adaptiq_avatar_${userObj.id}`);
+
+    if (savedImg) {
+      imgPreview.src = savedImg;
+      imgPreview.style.display = 'block';
+      placeholder.style.display = 'none';
+    } else {
+      imgPreview.style.display = 'none';
+      placeholder.style.display = 'flex';
+    }
+  }
+
+  function handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64Img = e.target.result;
+        const imgPreview = document.getElementById('profile-image-preview');
+        const placeholder = document.getElementById('avatar-placeholder');
+        
+        imgPreview.src = base64Img;
+        imgPreview.style.display = 'block';
+        placeholder.style.display = 'none';
+
+        const userObj = JSON.parse(localStorage.getItem('adaptiq_active_user') || '{}');
+        if (userObj.id) {
+          localStorage.setItem(`adaptiq_avatar_${userObj.id}`, base64Img);
+        }
+        showCustomModal("Profile Updated", "Profile picture updated successfully!", "very_happy");
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function logoutUser() {
+    localStorage.removeItem('adaptiq_active_user');
+    sessionStorage.removeItem('show_study_mascot');
+    document.getElementById('wrapper-welcome').classList.remove('hidden');
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const activeUser = localStorage.getItem('adaptiq_active_user');
+
+    if (activeUser) {
+      const u = JSON.parse(activeUser);
+      loadUserProfileData(u);
+      completeAuthFlow();
+      loadAnalyticsData();
+      loadDailyStreak();
+      initPushNotifications();
+    } else {
+      document.getElementById('wrapper-welcome').classList.remove('hidden');
+    }
+
+    initFingerDragNavigation();
+  });
+
+  function triggerStudyWelcomeAnimation() {
+    const popup = document.getElementById('study-welcome-container');
+    const shouldShow = sessionStorage.getItem('show_study_mascot');
+
+    if (!popup || shouldShow !== 'true') return;
+
+    sessionStorage.removeItem('show_study_mascot');
+    
+    setTimeout(() => {
+      popup.classList.add('active');
+      setTimeout(() => {
+        popup.classList.remove('active');
+      }, 3000);
+    }, 500);
+  }
+
+  function switchScreen(screenId, navElement) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(screenId);
+    if (target) target.classList.add('active');
+
+    if (navElement) {
+      document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
+      navElement.classList.add('active');
+    }
+
+    if (screenId === 'screen-tracker' || screenId === 'screen-dashboard') {
+      loadAnalyticsData();
+      loadDailyStreak();
+    }
+  }
+
+  function initFingerDragNavigation() {
+    const mainApp = document.querySelector('.app-container');
+    if (!mainApp) return;
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    const primaryScreens = [
+      'screen-dashboard',
+      'screen-test-gen',
+      'screen-tracker',
+      'screen-assistant',
+      'screen-profile'
+    ];
+
+    mainApp.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    mainApp.addEventListener('touchend', e => {
+      const deltaX = e.changedTouches[0].screenX - touchStartX;
+      const deltaY = e.changedTouches[0].screenY - touchStartY;
+
+      if (Math.abs(deltaX) > 60 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+        const activeScreen = document.querySelector('.screen.active');
+        if (!activeScreen) return;
+        
+        const currentIndex = primaryScreens.indexOf(activeScreen.id);
+        if (currentIndex !== -1) {
+          if (deltaX < 0 && currentIndex < primaryScreens.length - 1) {
+            switchScreen(primaryScreens[currentIndex + 1], document.querySelectorAll('.bottom-nav .nav-item')[currentIndex + 1]);
+          } else if (deltaX > 0 && currentIndex > 0) {
+            switchScreen(primaryScreens[currentIndex - 1], document.querySelectorAll('.bottom-nav .nav-item')[currentIndex - 1]);
+          }
+        }
+      }
+    }, { passive: true });
+  }
+
+  function scrollToBottom() {
+    const chatBox = document.getElementById('chatBox');
+    if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  function selectDifficulty(btn) {
+    document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function switchTestTab(pill, mode) {
+    document.querySelectorAll('.tab-pills .tab-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    currentTestMode = mode;
+
+    const cardTitle = document.getElementById('test-card-title');
+    const label = document.getElementById('dynamic-input-label');
+    const tagsWrapper = document.getElementById('topic-tags-wrapper');
+    const chapterInput = document.getElementById('chapter-name-input');
+    const pyqInput = document.getElementById('pyq-year-input');
+
+    tagsWrapper.style.display = 'none';
+    chapterInput.style.display = 'none';
+    pyqInput.style.display = 'none';
+
+    if (mode === 'custom') {
+      cardTitle.innerText = "Custom Test Settings";
+      label.innerText = "Topics (optional)";
+      tagsWrapper.style.display = 'flex';
+    } else if (mode === 'chapter') {
+      cardTitle.innerText = "Chapter Wise Test Settings";
+      label.innerText = "Name of Chapter *";
+      chapterInput.style.display = 'block';
+    } else if (mode === 'pyq') {
+      cardTitle.innerText = "Previous Years Test Settings";
+      label.innerText = "Exam Year *";
+      pyqInput.style.display = 'block';
+    }
+  }
+
+  function removeTag(element) {
+    element.parentElement.remove();
+  }
+
+  function addNewTag() {
+    const topic = prompt("Enter topic name (e.g. Algebra, Trigonometry):");
+    if (topic && topic.trim() !== "") {
+      const tag = document.createElement("span");
+      tag.className = "tag-pill";
+      tag.innerHTML = `<span class="tag-text">${topic.trim()}</span> <i class="fa-solid fa-xmark remove-tag" onclick="removeTag(this)"></i>`;
+      const wrapper = document.getElementById("topic-tags-wrapper");
+      wrapper.insertBefore(tag, wrapper.querySelector(".add-tag-btn"));
+    }
+  }
+
+  async function generateTestBackend() {
+    const btn = document.getElementById('gen-test-btn');
+    const subject = document.getElementById('test-subject-select').value;
+    const numQuestions = parseInt(document.getElementById('test-num-questions').value) || 5;
+    
+    const activeDiffBtn = document.querySelector('.diff-btn.active');
+    const difficulty = activeDiffBtn ? activeDiffBtn.getAttribute('data-level') || 'Medium' : 'Medium';
+    
+    let topics = [];
+
+    if (currentTestMode === 'custom') {
+      topics = Array.from(document.querySelectorAll('#topic-tags-wrapper .tag-text')).map(el => el.innerText.trim());
+    } else if (currentTestMode === 'chapter') {
+      const chName = document.getElementById('chapter-name-input').value.trim();
+      if (!chName) {
+        showCustomModal("Input Required", "Please enter the Chapter Name!", "normal");
+        return;
+      }
+      topics = [chName];
+    } else if (currentTestMode === 'pyq') {
+      const yr = document.getElementById('pyq-year-input').value.trim();
+      if (!yr) {
+        showCustomModal("Input Required", "Please enter the Exam Year!", "normal");
+        return;
+      }
+      topics = [`Previous Year Question Paper - ${yr}`];
+    }
+
+    const userObj = JSON.parse(localStorage.getItem('adaptiq_active_user') || '{}');
+
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Generating Questions...`;
+
+    try {
+      const response = await fetch(`${BASE_URL}/api/generate-test`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: userObj.id,
+          username: userObj.name || 'Student',
+          subject: subject,
+          num_questions: numQuestions,
+          difficulty: difficulty,
+          topics: topics,
+          mode: currentTestMode,
+          classNum: userObj.classNum || '8'
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success' && data.questions && data.questions.length > 0) {
+        currentSubject = subject;
+        activeQuestions = data.questions;
+        startMockTestUI(subject, numQuestions);
+      } else {
+        showCustomModal("Generation Failed", data.message || "Could not generate test. Please try again.", "normal");
+      }
+    } catch (err) {
+      console.error("Test generation error:", err);
+      showCustomModal("Server Error", "Server error connecting to API.", "normal");
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = `Generate Test ✨`;
+    }
+  }
+
+  function startMockTestUI(subject, count) {
+    currentQuestionIdx = 0;
+    selectedAnswers = {};
+    isSubmittingTest = false;
+
+    document.getElementById('quiz-subject-label').innerText = subject;
+    switchScreen('screen-live-test');
+    renderCurrentQuestion();
+    startTimer(count * 60);
+  }
+
+  function renderCurrentQuestion() {
+    const qData = activeQuestions[currentQuestionIdx];
+    const total = activeQuestions.length;
+
+    document.getElementById('question-counter').innerText = `Q ${currentQuestionIdx + 1} / ${total}`;
+    
+    const questionText = qData.question || qData.q || "No question provided";
+    document.getElementById('quiz-question-text').innerText = questionText;
+
+    const progressEl = document.getElementById('live-test-progress');
+    if (progressEl) {
+      progressEl.style.width = `${((currentQuestionIdx + 1) / total) * 100}%`;
+    }
+
+    const optionsWrapper = document.getElementById('quiz-options-wrapper');
+    optionsWrapper.innerHTML = '';
+
+    const labels = ['A', 'B', 'C', 'D'];
+    if (qData.options && Array.isArray(qData.options)) {
+      qData.options.forEach((opt, idx) => {
+        const optionCard = document.createElement('div');
+        optionCard.className = `quiz-option-card ${selectedAnswers[currentQuestionIdx] === idx ? 'selected' : ''}`;
+        optionCard.onclick = () => selectQuizOption(optionCard, idx);
+        optionCard.innerHTML = `
+          <div class="option-badge">${labels[idx]}</div>
+          <span style="font-size: 0.9rem;">${opt}</span>
+        `;
+        optionsWrapper.appendChild(optionCard);
+      });
+    }
+
+    const nextBtn = document.getElementById('next-submit-btn');
+    if (nextBtn) {
+      nextBtn.disabled = false;
+      if (currentQuestionIdx === total - 1) {
+        nextBtn.innerHTML = `Submit Test <i class="fa-solid fa-check"></i>`;
+      } else {
+        nextBtn.innerHTML = `Next <i class="fa-solid fa-chevron-right"></i>`;
+      }
+    }
+  }
+
+  function selectQuizOption(element, optIdx) {
+    document.querySelectorAll('#quiz-options-wrapper .quiz-option-card').forEach(card => card.classList.remove('selected'));
+    element.classList.add('selected');
+    selectedAnswers[currentQuestionIdx] = optIdx;
+  }
+
+  function nextQuestion() {
+    if (isSubmittingTest) return;
+
+    if (currentQuestionIdx < activeQuestions.length - 1) {
+      currentQuestionIdx++;
+      renderCurrentQuestion();
+    } else {
+      submitMockTest();
+    }
+  }
+
+  function prevQuestion() {
+    if (isSubmittingTest) return;
+
+    if (currentQuestionIdx > 0) {
+      currentQuestionIdx--;
+      renderCurrentQuestion();
+    }
+  }
+
+  function startTimer(duration) {
+    clearInterval(timerInterval);
+    let timer = duration;
+    const display = document.getElementById('test-timer');
+
+    timerInterval = setInterval(() => {
+      const minutes = parseInt(timer / 60, 10);
+      const seconds = parseInt(timer % 60, 10);
+
+      if (display) {
+        display.textContent = `${minutes < 10 ? "0" + minutes : minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+      }
+
+      if (--timer < 0) {
+        clearInterval(timerInterval);
+        showCustomModal("Time's Up!", "Time's up! Submitting test automatically.", "normal");
+        submitMockTest();
+      }
+    }, 1000);
+  }
+
+  async function submitMockTest() {
+    if (isSubmittingTest) return;
+    
+    isSubmittingTest = true;
+    clearInterval(timerInterval);
+    
+    const nextBtn = document.getElementById('next-submit-btn');
+    if (nextBtn) {
+      nextBtn.disabled = true;
+      nextBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Submitting...`;
+    }
+
+    const userObj = JSON.parse(localStorage.getItem('adaptiq_active_user') || '{}');
+
+    try {
+      const response = await fetch(`${BASE_URL}/api/submit-test`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: userObj.id,
+          username: userObj.name || 'Student',
+          subject: currentSubject,
+          questions: activeQuestions,
+          user_answers: selectedAnswers
+        })
+      });
+
+      const resData = await response.json();
+
+      if (resData.status === 'success') {
+        if (resData.analytics) {
+          updateAnalyticsUI(resData.analytics);
+        }
+        
+        let feedbackClean = resData.feedback || "Keep up the hard work!";
+        feedbackClean = feedbackClean.replace(/gemini/gi, '').trim();
+
+        showCustomModal(
+          "Test Completed!",
+          `Score: ${resData.score}/${resData.total} (${resData.percentage}%)\n\nFeedback: ${feedbackClean}`,
+          resData.percentage >= 50 ? 'very_happy' : 'normal'
+        );
+      } else {
+        showCustomModal("Error", resData.message || "Error submitting test to backend.", "normal");
+      }
+    } catch (err) {
+      console.error("Error submitting test:", err);
+      showCustomModal("Connection Error", "Server connection error during test submission.", "normal");
+    } finally {
+      isSubmittingTest = false;
+      switchScreen('screen-tracker', document.querySelectorAll('.bottom-nav .nav-item')[2]);
+    }
+  }
+
+  function runTypewriterEffect(text) {
+    const textEl = document.getElementById('typewriter-text');
+    if (!textEl) return;
+    
+    if (typewriterTimeout) clearTimeout(typewriterTimeout);
+    textEl.innerText = "";
+    let i = 0;
+    
+    function typeLetter() {
+      if (i < text.length) {
+        textEl.innerText += text.charAt(i);
+        i++;
+        typewriterTimeout = setTimeout(typeLetter, 20);
+      }
+    }
+    typeLetter();
+  }
+
+  function updateAnalyticsUI(analytics) {
+    if (!analytics) return;
+    
+    const accuracy = analytics.overall_accuracy !== undefined ? analytics.overall_accuracy : (analytics.overall_percentage || 0);
+    
+    const accuracyEl = document.getElementById('overall-accuracy');
+    if (accuracyEl) {
+      accuracyEl.innerText = `${accuracy}%`;
+      accuracyEl.style.color = accuracy >= 50 ? '#10b981' : '#ef4444';
+    }
+
+    const dashAccuracyEl = document.getElementById('dash-overall-percentage');
+    const dashProgressFill = document.getElementById('dash-progress-fill');
+    if (dashAccuracyEl) {
+      dashAccuracyEl.innerText = `${accuracy}%`;
+      dashAccuracyEl.style.color = accuracy >= 50 ? '#10b981' : '#ef4444';
+    }
+    if (dashProgressFill) {
+      dashProgressFill.style.width = `${accuracy}%`;
+    }
+
+    const subtextEl = document.getElementById('accuracy-subtext');
+    if (subtextEl) {
+      subtextEl.innerText = analytics.last_feedback || `7-day performance summary.`;
+    }
+
+    const totalTests = (analytics.total_tests !== undefined) ? analytics.total_tests : 
+                       (analytics.tests_completed !== undefined ? analytics.tests_completed : 0);
+
+    const completedEl = document.getElementById('analytics-completed');
+    if (completedEl) {
+      completedEl.innerText = `${totalTests} Tests`;
+    }
+
+    const correctEl = document.getElementById('analytics-correct');
+    if (correctEl) {
+      correctEl.innerText = `${analytics.total_score || analytics.correct_count || 0}`;
+    }
+
+    const totalQsEl = document.getElementById('analytics-total-qs');
+    if (totalQsEl) {
+      totalQsEl.innerText = `${analytics.total_questions || 0}`;
+    }
+
+    const mascotImg = document.getElementById('analytics-mascot-img');
+    let messageText = "";
+
+    if (totalTests === 0) {
+      mascotImg.src = "{{ url_for('static', filename='images/Normal.png') }}";
+      messageText = "Welcome! Take your first mock test to see performance insights here.";
+    } else if (accuracy >= 80) {
+      mascotImg.src = "{{ url_for('static', filename='images/Very_Happy.png') }}";
+      messageText = "Outstanding performance! You are mastering this subject like a pro!";
+    } else if (accuracy >= 50) {
+      mascotImg.src = "{{ url_for('static', filename='images/Normal.png') }}";
+      messageText = "Good effort! Keep practicing consistently to boost your accuracy further.";
+    } else if (accuracy < 10) {
+      mascotImg.src = "{{ url_for('static', filename='images/Very_Sad.png') }}";
+      messageText = "Oh no! Your score has dropped below 10%. Let's revise basic concepts again!";
+    } else {
+      mascotImg.src = "{{ url_for('static', filename='images/Little_Sad.png') }}";
+      messageText = "Don't get discouraged! Let's focus on weak topics and turn this around.";
+    }
+
+    runTypewriterEffect(messageText);
+  }
+
+  async function loadAnalyticsData() {
+    const userObj = JSON.parse(localStorage.getItem('adaptiq_active_user') || '{}');
+    if (!userObj.id) return;
+
+    try {
+      const response = await fetch(`${BASE_URL}/api/performance?user_id=${userObj.id}`);
+      const data = await response.json();
+      if (data.status === 'success') {
+        const formattedAnalytics = {
+          overall_accuracy: data.overall_accuracy !== undefined ? data.overall_accuracy : (data.summary_7days ? data.summary_7days.overall_percentage : 0),
+          total_tests: data.summary_7days ? data.summary_7days.total_tests : 0,
+          total_score: data.summary_7days ? data.summary_7days.total_points : 0,
+          total_questions: data.summary_7days ? data.summary_7days.total_questions : 0,
+          last_feedback: data.results && data.results.length > 0 ? data.results[0].feedback : ""
+        };
+        updateAnalyticsUI(formattedAnalytics);
+      } else {
+        updateAnalyticsUI({ overall_accuracy: 0, total_tests: 0, total_score: 0, total_questions: 0 });
+      }
+    } catch (err) {
+      console.log("Could not load saved analytics", err);
+      updateAnalyticsUI({ overall_accuracy: 0, total_tests: 0, total_score: 0, total_questions: 0 });
+    }
+  }
+
+  async function loadDailyStreak() {
+    const userObj = JSON.parse(localStorage.getItem('adaptiq_active_user') || '{}');
+    if (!userObj.id) return;
+
+    try {
+      const response = await fetch(`${BASE_URL}/api/streak?user_id=${userObj.id}`);
+      const data = await response.json();
+      
+      if (data.status === 'success') {
+        const streakCount = data.streak || 0;
+        
+        const streakEl = document.getElementById('streak-count');
+        if (streakEl) {
+          streakEl.innerText = `${streakCount} Days`;
+        }
+      }
+    } catch (err) {
+      console.log("Could not fetch daily streak", err);
+    }
+  }
+
+  async function sendChatMessage() {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    const userObj = JSON.parse(localStorage.getItem('adaptiq_active_user') || '{}');
+
+    const chatBox = document.getElementById('chatBox');
+    const userMsg = document.createElement('div');
+    userMsg.className = 'chat-msg user';
+    userMsg.innerText = text;
+    chatBox.appendChild(userMsg);
+    input.value = '';
+    scrollToBottom();
+
+    const botMsg = document.createElement('div');
+    botMsg.className = 'chat-msg bot';
+    botMsg.innerText = 'Thinking... ✨';
+    chatBox.appendChild(botMsg);
+    scrollToBottom();
+
+    try {
+      const response = await fetch(`${BASE_URL}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          message: text,
+          user_id: userObj.id,
+          username: userObj.name || 'Student'
+        })
+      });
+      const data = await response.json();
+      botMsg.innerHTML = data.reply || data.message || "Sorry, I couldn't process that.";
+    } catch (err) {
+      botMsg.innerText = "Error connecting to backend.";
+    }
+    scrollToBottom();
+  }
+</script>
+</body>
+</html>
