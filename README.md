@@ -56,11 +56,4 @@ cd AdaptIQ
 ​Install Dependencies:
 pip install flask flask-cors pywebpush python-dotenv
 ​Configure Environment Variables (.env):
-Create a .env file in the project root directory and add the required credentials:
-GEMINI_API_KEY=your_gemini_api_key_here
-VAPID_PUBLIC_KEY=your_vapid_public_key
-VAPID_PRIVATE_KEY=your_vapid_private_key
-​Run the Application:
-python app.py
-​Access Application:
-Open http://localhost:5000 in your browser.
+Create a .env file in the project root directory and add the required credentials
